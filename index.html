@@ -1,0 +1,564 @@
+﻿<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+    <meta charset="utf-8">
+    <title>Receipt.js Designer</title>
+    <meta property="og:title" content="Receipt.js Designer">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://receiptline.github.io/receiptjs-designer/ogp/en.png">
+    <meta property="og:url" content="https://receiptline.github.io/receiptjs-designer/">
+    <meta property="og:description" content="The Receipt.js Designer can easily edit, preview, and print receipts, tickets, etc. using markdown language.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="favicon.ico" rel="icon">
+    <link href="css/designer.css" rel="stylesheet">
+    <script type="text/javascript" src="script/designer.js"></script>
+    <script type="text/javascript" src="script/receipt.js"></script>
+    <script type="text/javascript" src="script/receipt-printer.js"></script>
+    <script type="text/javascript" src="script/receipt-serial.js"></script>
+    <script type="text/javascript" src="script/qrcode-generator/qrcode.js"></script>
+</head>
+<body onload="initialize()">
+    <header>
+        <div>
+            <button id="load" title="open">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <path stroke="#000" fill="none" stroke-width="1" d="M.5,23.5l4,-15h19l-4,15zv-19h2l1,-2h5l1,2h10v4"/>
+                </svg>
+            </button>
+            <button id="save" title="download">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <path stroke="#000" fill="none" stroke-width="1" d="M11.5,.5v16m-4,-4l4,4l4,-4M4.5,8.5h-4v15h22v-15h-4"/>
+                </svg>
+            </button>
+            <button id="prn" title="print">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <path stroke="#000" fill="none" stroke-width="1" d="M4.5,2.5v14h14v-14zM4.5,8.5h-4v15h22v-15h-4"/>
+                </svg>
+            </button>
+            <button id="opt" title="print option">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <path fill="#000" d="M0,4h3v3h-3zM6,5h18v1h-18z"/>
+                    <path fill="#000" d="M0,11h3v3h-3zM6,12h18v1h-18z"/>
+                    <path fill="#000" d="M0,18h3v3h-3zM6,19h18v1h-18z"/>
+                </svg>
+            </button>
+        </div>
+        <div>
+            <label for="zoom">Zoom</label>
+            <input id="zoom" type="range" value="20" min="10" max="30" step="2">
+        </div>
+        <div>
+            <button id="img" title="image">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <path stroke="#000" fill="none" stroke-width="1" d="M.5,.5h23v23h-23zM.5,17.5l15,-10l8,8"/>
+                    <circle stroke="#000" fill="none" stroke-width="1" cx="6" cy="6" r="2.5"/>
+                </svg>
+            </button>
+            <button id="bar" title="barcode">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <path fill="#000" d="M0,1h2v20h-2zM4,1h1v20h-1zM6,1h1v20h-1zM8,1h1v20h-1zM10,1h1v20h-1zM13,1h1v20h-1zM15,1h1v20h-1zM17,1h1v20h-1zM19,1h1v20h-1zM22,1h2v20h-2z"/>
+                    <path fill="#000" d="M3,22h2v2h-2zM7,22h2v2h-2zM11,22h2v2h-2zM15,22h2v2h-2zM19,22h2v2h-2z"/>
+                </svg>
+            </button>
+            <button id="qr" title="2D code">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <path fill="#000" d="M0,0h5v5h-5zM19,0h5v5h-5zM0,19h5v5h-5z"/>
+                    <path fill="#000" d="M7,1h2v2h-2zM11,1h2v2h-2zM15,1h2v2h-2z"/>
+                    <path fill="#000" d="M9,3h2v2h-2zM13,3h2v2h-2z"/>
+                    <path fill="#000" d="M7,5h2v2h-2zM11,5h2v2h-2zM15,5h2v2h-2z"/>
+                    <path fill="#000" d="M1,7h2v2h-2zM5,7h2v2h-2zM9,7h2v2h-2zM13,7h2v2h-2zM17,7h2v2h-2zM21,7h2v2h-2z"/>
+                    <path fill="#000" d="M3,9h2v2h-2zM7,9h2v2h-2zM11,9h2v2h-2zM15,9h2v2h-2zM19,9h2v2h-2z"/>
+                    <path fill="#000" d="M1,11h2v2h-2zM5,11h2v2h-2zM9,11h2v2h-2zM13,11h2v2h-2zM17,11h2v2h-2zM21,11h2v2h-2z"/>
+                    <path fill="#000" d="M3,13h2v2h-2zM7,13h2v2h-2zM11,13h2v2h-2zM15,13h2v2h-2zM19,13h2v2h-2z"/>
+                    <path fill="#000" d="M1,15h2v2h-2zM5,15h2v2h-2zM9,15h2v2h-2zM13,15h2v2h-2zM17,15h2v2h-2zM21,15h2v2h-2z"/>
+                    <path fill="#000" d="M7,17h2v2h-2zM11,17h2v2h-2zM15,17h2v2h-2zM19,17h2v2h-2z"/>
+                    <path fill="#000" d="M9,19h2v2h-2zM13,19h2v2h-2zM17,19h2v2h-2zM21,19h2v2h-2z"/>
+                    <path fill="#000" d="M7,21h2v2h-2zM11,21h2v2h-2zM15,21h2v2h-2zM19,21h2v2h-2z"/>
+                </svg>
+            </button>
+            <button id="format" title="formatting">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <path stroke="#000" fill="none" stroke-width="1" d="M.5,.5v23M.5,11.5h23M23.5,.5v23M4.5,7.5l-4,4l4,4M19.5,7.5l4,4l-4,4"/>
+                </svg>
+            </button>
+        </div>
+        <div>
+            <button id="col" title="column delimiter">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <path stroke="#000" fill="none" stroke-width="1" d="M11.5,.5v23"/>
+                </svg>
+            </button>
+            <button id="hr" title="horizontal rule">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <path stroke="#000" fill="none" stroke-width="1" d="M.5,11.5h23"/>
+                </svg>
+            </button>
+            <button id="cut" title="paper cut">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <path stroke="#000" fill="none" stroke-width="1" d="M12,12.5l-7.5,-3a2,2,0,1,1,.5,0M12,11.5l-7.5,3a2,2,0,1,0,.5,0"/>
+                    <path fill="#000" d="M12,12l10,-4q-1,-1,-2.5,-1l-10,4v2l10,4q1.5,0,2.5,-1z"/>
+                </svg>
+            </button>
+            <button id="ul" title="underline">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <text x="12" y="20" text-anchor="middle" fill="#000" font-family="monospace" font-size="24" text-decoration="underline">a</text>
+                </svg>
+            </button>
+            <button id="em" title="emphasis">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <text x="12" y="20" text-anchor="middle" fill="#000" font-family="monospace" font-size="24" font-weight="bold">a</text>
+                </svg>
+            </button>
+            <button id="iv" title="invert">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <path fill="#000" d="M0,0h24v24h-24z"/>
+                    <text x="12" y="20" text-anchor="middle" fill="#fff" font-family="monospace" font-size="24">a</text>
+                </svg>
+            </button>
+            <button id="wh" title="size">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <text x="6" y="20" text-anchor="middle" fill="#000" font-family="monospace" font-size="24" transform="scale(2,1)">a</text>
+                </svg>
+            </button>
+        </div>
+        <div>
+            <select id="lang" aria-label="language">
+                <option value="en">Multilingual</option>
+                <option value="ja">Japanese</option>
+                <option value="zh-Hans">Simplified Chinese</option>
+                <option value="zh-Hant">Traditional Chinese</option>
+                <option value="ko">Korean</option>
+                <option value="th">Thai</option>
+            </select>
+            <label for="linewidth">Width</label>
+            <input id="linewidth" type="range" value="576" min="288" max="576" step="12">
+            <span id="dots">576</span> dots / <span id="cpl">48</span> cpl
+            <input id="landscape" type="checkbox">
+            <label for="landscape">Landscape</label>
+            <input id="linespace" type="checkbox" checked>
+            <label for="linespace">Spacing</label>
+        </div>
+    </header>
+    <hr>
+    <main>
+        <textarea id="edit" rows="24" cols="80" placeholder="Receipt Markdown" autofocus="autofocus"></textarea>
+        <section>
+            <div class="paper">
+                <div id="printarea"></div>
+            </div>
+        </section>
+    </main>
+    <hr>
+    <details>
+        <summary>Grammar</summary>
+        <article>
+            <div>
+                <strong>Columns</strong>
+                <ul>
+                    <li>1st</li>
+                    <li><b>|</b>1st<b>|</b></li>
+                    <li>1st<b>|</b>2nd</li>
+                    <li><b>|</b>1st<b>|</b>2nd<b>|</b></li>
+                    <li>1st<b>|</b> ... <b>|</b>nth</li>
+                    <li><b>|</b>1st<b>|</b> ... <b>|</b>nth<b>|</b></li>
+                </ul>
+                <strong>Alignment</strong>
+                <ul>
+                    <li>center</li>
+                    <li><b>|</b>center<b>|</b></li>
+                    <li><b>|␣</b>center<b>␣|</b></li>
+                    <li><b>|</b>left</li>
+                    <li><b>|</b>left<b>␣|</b></li>
+                    <li>left<b>␣|</b></li>
+                    <li>right<b>|</b></li>
+                    <li><b>|</b>␣right<b>|</b></li>
+                    <li><b>|</b>␣right</li>
+                </ul>
+            </div>
+            <div>
+                <strong>Special characters in text</strong>
+                <ul>
+                    <li><b>\</b> : character escape</li>
+                    <li><b>|</b> : column delimiter</li>
+                    <li><b>{</b> : property delimiter (start)</li>
+                    <li><b>}</b> : property delimiter (end)</li>
+                    <li><b>-</b> (1 or more, exclusive) : horizontal rule</li>
+                    <li><b>=</b> (1 or more, exclusive) : paper cut</li>
+                    <li><b>~</b> : space</li>
+                    <li><b>_</b> : underline</li>
+                    <li><b>"</b> : emphasis</li>
+                    <li><b>`</b> : invert</li>
+                    <li><b>^</b> : double width</li>
+                    <li><b>^^</b> : double height</li>
+                    <li><b>^^^</b> : 2x size</li>
+                    <li><b>^^^^</b> : 3x size</li>
+                    <li><b>^^^^^</b> : 4x size</li>
+                    <li><b>^^^^^^</b> : 5x size</li>
+                    <li><b>^^^^^^^</b> (7 or more) : 6x size</li>
+                </ul>
+            </div>
+            <div>
+                <strong>Escape characters in text</strong>
+                <ul>
+                    <li><b>\\</b> : \</li>
+                    <li><b>\|</b> : |</li>
+                    <li><b>\{</b> : {</li>
+                    <li><b>\}</b> : }</li>
+                    <li><b>\-</b> : - (cancel horizontal rule)</li>
+                    <li><b>\=</b> : = (cancel paper cut)</li>
+                    <li><b>\~</b> : ~</li>
+                    <li><b>\_</b> : _</li>
+                    <li><b>\"</b> : "</li>
+                    <li><b>\`</b> : `</li>
+                    <li><b>\^</b> : ^</li>
+                    <li><b>\n</b> : wrap text manually</li>
+                    <li><b>\x<i>nn</i></b> : hexadecimal character code</li>
+                    <li><b>\<i>char</i></b> (others) : ignore</li>
+                </ul>
+            </div>
+            <div>
+                <strong>Properties</strong>
+                <ul>
+                    <li><b>{i</b>|<b>image:</b> base64 png format<b>}</b></li>
+                    <li class="nolist">image (recommended: monochrome, critical chunks only)</li>
+                    <li><b>{c</b>|<b>code:</b> string<b>}</b></li>
+                    <li class="nolist">barcode / 2D code</li>
+                    <li><b>{o</b>|<b>option:</b> value, value ...<b>}</b></li>
+                    <li class="nolist">barcode / 2D code options (default: code128 2 72 nohri / 3 L)</li>
+                    <li><b>{a</b>|<b>align:</b> left|center|right<b>}</b></li>
+                    <li class="nolist">line alignment (default: center)</li>
+                    <li><b>{w</b>|<b>width:</b> number|*, number|* ...<b>}</b></li>
+                    <li class="nolist">column width (default: auto)</li>
+                    <li><b>{b</b>|<b>border:</b> none|space|line|0-2<b>}</b></li>
+                    <li class="nolist">column border (default: space)</li>
+                    <li><b>{t</b>|<b>text:</b> wrap|nowrap<b>}</b></li>
+                    <li class="nolist">text wrapping (default: wrap)</li>
+                    <li><b>{x</b>|<b>command:</b> string<b>}</b></li>
+                    <li class="nolist">device-specific commands</li>
+                    <li><b>{_</b>|<b>comment:</b> string<b>}</b></li>
+                    <li class="nolist">comment</li>
+                </ul>
+            </div>
+            <div>
+                <strong>Special characters in property values</strong>
+                <ul>
+                    <li><b>\</b> : character escape</li>
+                    <li><b>|</b> : column delimiter</li>
+                    <li><b>{</b> : property delimiter (start)</li>
+                    <li><b>}</b> : property delimiter (end)</li>
+                    <li><b>:</b> : key-value separator</li>
+                    <li><b>;</b> : key-value delimiter</li>
+                </ul>
+                <strong>Escape characters in property</strong>
+                <ul>
+                    <li><b>\\</b> : \</li>
+                    <li><b>\|</b> : |</li>
+                    <li><b>\{</b> : {</li>
+                    <li><b>\}</b> : }</li>
+                    <li><b>\;</b> : ;</li>
+                    <li><b>\n</b> : new line</li>
+                    <li><b>\x<i>nn</i></b> : hexadecimal character code</li>
+                    <li><b>\<i>char</i></b> (others) : ignore</li>
+                </ul>
+            </div>
+        </article>
+    </details>
+    <details>
+        <summary>Syntax</summary>
+        <article>
+            <div>
+                <figure>
+                    <figcaption>document</figcaption>
+                    <img alt="document" src="image/document.png">
+                </figure>
+                <figure>
+                    <figcaption>line</figcaption>
+                    <img alt="line" src="image/line.png">
+                </figure>
+                <figure>
+                    <figcaption>columns</figcaption>
+                    <img alt="columns" src="image/columns.png">
+                </figure>
+                <figure>
+                    <figcaption>column</figcaption>
+                    <img alt="column" src="image/column.png">
+                </figure>
+            </div>
+            <div>
+                <figure>
+                    <figcaption>text</figcaption>
+                    <img alt="text" src="image/text.png">
+                </figure>
+                <figure>
+                    <figcaption>char</figcaption>
+                    <img alt="char" src="image/char.png">
+                </figure>
+                <figure>
+                    <figcaption>escape</figcaption>
+                    <img alt="escape" src="image/escape.png">
+                </figure>
+                <figure>
+                    <figcaption>ws (whitespace)</figcaption>
+                    <img alt="ws" src="image/ws.png">
+                </figure>
+            </div>
+            <div>
+                <figure>
+                    <figcaption>property</figcaption>
+                    <img alt="property" src="image/property.png">
+                </figure>
+                <figure>
+                    <figcaption>member</figcaption>
+                    <img alt="member" src="image/member.png">
+                </figure>
+                <figure>
+                    <figcaption>key</figcaption>
+                    <img alt="key" src="image/key.png">
+                </figure>
+                <figure>
+                    <figcaption>value</figcaption>
+                    <img alt="value" src="image/value.png">
+                </figure>
+            </div>
+        </article>
+    </details>
+    <div id="loaddialog" class="dialog">
+        <div id="loadcancel"></div>
+        <div id="loadbox">
+            <input id="loadfile" type="file" accept=".receipt,text/plain" aria-label="file">
+            <br>
+            <textarea id="loadview" rows="12" cols="40" readonly aria-label="preview"></textarea>
+            <hr>
+            <div>
+                <button id="loadok">OK</button>
+            </div>
+        </div>
+    </div>
+    <div id="savedialog" class="dialog">
+        <div id="savecancel"></div>
+        <div id="savebox">
+            <div>Download</div>
+            <input type="radio" id="savetext" name="savetype" value="text" checked>
+            <label for="savetext">Markdown Text</label>
+            <br>
+            <input type="radio" id="savesvg" name="savetype" value="svg">
+            <label for="savesvg">SVG Image</label>
+            <hr>
+            <div>
+                <button id="saveok">OK</button>
+            </div>
+        </div>
+    </div>
+    <div id="imgdialog" class="dialog">
+        <div id="imgcancel"></div>
+        <div id="imgbox">
+            <input id="imgfile" type="file" accept="image/png" aria-label="file">
+            <br>
+            <canvas id="imgview"></canvas>
+            <hr>
+            <div>
+                <button id="imgok">OK</button>
+            </div>
+        </div>
+    </div>
+    <div id="bardialog" class="dialog">
+        <div id="barcancel"></div>
+        <div id="barbox">
+            <label for="bardata">Data</label>
+            <input id="bardata" type="text" value="1234">
+            <br>
+            <label for="bartype">Type</label>
+            <select id="bartype">
+                <option value="code128">CODE128</option>
+                <option value="code93">CODE93</option>
+                <option value="nw7">NW-7</option>
+                <option value="codabar">Codabar</option>
+                <option value="itf">ITF</option>
+                <option value="code39">CODE39</option>
+                <option value="jan">JAN</option>
+                <option value="ean">EAN</option>
+                <option value="upc">UPC</option>
+            </select>
+            <br>
+            <label for="barwidth">Width</label>
+            <input id="barwidth" type="range" value="2" min="2" max="4" step="1">
+            <br>
+            <label for="barheight">Height</label>
+            <input id="barheight" type="range" value="72" min="24" max="240" step="24">
+            <br>
+            <input id="barhri" type="checkbox">
+            <label for="barhri">HRI</label>
+            <div class="note">Quiet zones are required around the barcode.</div>
+            <div class="note">HRI: Human Readable Interpretation</div>
+            <hr>
+            <div>
+                <button id="barok">OK</button>
+            </div>
+        </div>
+    </div>
+    <div id="qrdialog" class="dialog">
+        <div id="qrcancel"></div>
+        <div id="qrbox">
+            <label for="qrdata">Data</label>
+            <input id="qrdata" type="text" value="https://github.com/receiptline/receiptjs">
+            <br>
+            <label for="qrtype">Type</label>
+            <select id="qrtype">
+                <option value="qrcode">QR Code</option>
+            </select>
+            <br>
+            <label for="qrcell">Size</label>
+            <input id="qrcell" type="range" value="3" min="3" max="8" step="1">
+            <br>
+            <label for="qrlevel">Error correction level</label>
+            <select id="qrlevel">
+                <option value="L">L</option>
+                <option value="M">M</option>
+                <option value="Q">Q</option>
+                <option value="H">H</option>
+            </select>
+            <div class="note">Quiet zones are required around the 2D code.</div>
+            <div class="note">QR Code is a registered trademark of DENSO WAVE INCORPORATED.</div>
+            <hr>
+            <div>
+                <button id="qrok">OK</button>
+            </div>
+        </div>
+    </div>
+    <div id="formatdialog" class="dialog">
+        <div id="formatcancel"></div>
+        <div id="formatbox">
+            <div class="note">
+                <svg width="325px" height="100px" viewBox="0 0 325 100" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <path stroke="none" fill="#fff" stroke-width="1" d="M0,0h325v100h-325z"/>
+                    <path stroke="none" fill="#ddd" stroke-width="1" d="M50,25h225v50h-225z"/>
+                    <path stroke="none" fill="#bbb" stroke-width="1" d="M50,25h25v50h-25zM150,25h25v50h-25zM250,25h25v50h-25z"/>
+                    <path stroke="#000" fill="none" stroke-width="1" d="M62.5,25.5v49M162.5,25.5v49M262.5,25.5v49"/>
+                    <path stroke="#000" fill="none" stroke-width="1" d="M.5,.5v99M324.5,.5v99M.5,49.5h49m-4,-4l4,4l-4,4M324.5,49.5h-49m4,-4l-4,4l4,4"/>
+                    <path stroke="#000" fill="none" stroke-width="1" d="M75.5,49.5m4,-4l-4,4l4,4m-4,-4h74m-4,-4l4,4l-4,4M175.5,49.5m4,-4l-4,4l4,4m-4,-4h74m-4,-4l4,4l-4,4"/>
+                    <text x="25" y="45" text-anchor="middle" fill="#000" font-size="10">align</text>
+                    <text x="62.5" y="20" text-anchor="middle" fill="#000" font-size="10">border</text>
+                    <text x="112.5" y="45" text-anchor="middle" fill="#000" font-size="10">width</text>
+                    <text x="162.5" y="20" text-anchor="middle" fill="#000" font-size="10">border</text>
+                    <text x="212.5" y="45" text-anchor="middle" fill="#000" font-size="10">width</text>
+                    <text x="262.5" y="20" text-anchor="middle" fill="#000" font-size="10">border</text>
+                    <text x="300" y="45" text-anchor="middle" fill="#000" font-size="10">align</text>
+                    <text x="112.5" y="70" text-anchor="middle" fill="#000" font-size="10">text</text>
+                    <text x="110" y="85" text-anchor="end" fill="#000" font-size="10">wrap</text>
+                    <path stroke="#000" fill="none" stroke-width="1" d="M112.5,82.5h33q3 0,3 3q0 3,-3 3h-30q-3 0,-3 3q0 3,3 3h33m-4,-4l4,4l-4,4"/>
+                    <text x="212.5" y="70" text-anchor="middle" fill="#000" font-size="10">text</text>
+                    <text x="220" y="85" text-anchor="end" fill="#000" font-size="10">nowrap</text>
+                    <path stroke="#000" fill="none" stroke-width="1" d="M222.5,82.5h26m-4,-4l4,4l-4,4M249.5,78.5v9"/>
+                </svg>
+            </div>
+            <label for="formatwidth">Column width</label>
+            <input id="formatwidth" type="text" value="auto">
+            <div class="note">default: auto (* for all columns), example: *,5,10</div>
+            <label for="formatborder">Column border</label>
+            <select id="formatborder">
+                <option value="">-</option>
+                <option value="none">none</option>
+                <option value="space">space</option>
+                <option value="line">line</option>
+                <option value="0">0 (none)</option>
+                <option value="1">1 (space)</option>
+                <option value="2">2</option>
+            </select>
+            <div class="note">default: space</div>
+            <label for="formattext">Text wrapping</label>
+            <select id="formattext">
+                <option value="">-</option>
+                <option value="wrap">wrap</option>
+                <option value="nowrap">nowrap</option>
+            </select>
+            <div class="note">default: wrap</div>
+            <label for="formatalign">Line alignment</label>
+            <select id="formatalign">
+                <option value="">-</option>
+                <option value="left">left</option>
+                <option value="center">center</option>
+                <option value="right">right</option>
+            </select>
+            <div class="note">default: center</div>
+            <hr>
+            <div>
+                <button id="formatok">OK</button>
+            </div>
+        </div>
+    </div>
+    <div id="optdialog" class="dialog">
+        <div id="optcancel"></div>
+        <div id="optbox">
+            <div>Print option</div>
+            <input type="checkbox" id="optupsidedown">
+            <label for="optupsidedown">Upside down</label>
+            <br>
+            <input type="checkbox" id="optimage">
+            <label for="optimage">Print as image</label>
+            <br>
+            <input type="checkbox" id="optcut" checked>
+            <label for="optcut">Paper cut</label>
+            <hr>
+            <input type="checkbox" id="optleft">
+            <label for="optleft">Left margin</label>
+            <div class="indent">
+                <input id="optleftslider" type="range" value="0" min="0" max="24" step="1" aria-label="range">
+                <span id="optleftval">0</span>
+                <div class="note">default: 0</div>
+            </div>
+            <input type="checkbox" id="optright">
+            <label for="optright">Right margin</label>
+            <div class="indent">
+                <input id="optrightslider" type="range" value="0" min="0" max="24" step="1" aria-label="range">
+                <span id="optrightval">0</span>
+                <div class="note">default: 0</div>
+            </div>
+            <hr>
+            <input type="checkbox" id="optgamma">
+            <label for="optgamma">Image gamma correction</label>
+            <div class="indent">
+                <input id="optgammaslider" type="range" value="1.0" min="0.1" max="10.0" step="0.1" aria-label="range">
+                <span id="optgammaval">1.0</span>
+                <div class="note">default: 1.0</div>
+            </div>
+            <input type="checkbox" id="optbinary">
+            <label for="optbinary">Image thresholding</label>
+            <div class="indent">
+                <input id="optbinaryslider" type="range" value="128" min="0" max="255" step="1" aria-label="range">
+                <span id="optbinaryval">128</span>
+                <div class="note">default: error diffusion</div>
+            </div>
+            <hr>
+            <input type="checkbox" id="optptr">
+            <label for="optptr">Printer control language</label>
+            <div class="indent">
+                <select id="optptrselect" aria-label="printer">
+                    <option value="epson">ESC/POS (Epson)</option>
+                    <option value="sii">ESC/POS (Seiko Instruments)</option>
+                    <option value="citizen">ESC/POS (Citizen)</option>
+                    <option value="fit">ESC/POS (Fujitsu)</option>
+                    <option value="generic">ESC/POS (Generic)</option>
+                    <option value="impact">ESC/POS (TM-U220)</option>
+                    <option value="impactb">ESC/POS (TM-U220 Font B)</option>
+                    <option value="star">StarPRNT</option>
+                    <option value="starline">Star Line Mode</option>
+                    <option value="emustarline">Star Line Mode (Emulator)</option>
+                    <option value="stargraphic">Star Graphic Mode</option>
+                    <option value="starimpact">Star Mode (SP700)</option>
+                    <option value="starimpact2">Star Mode (SP700 Font 5x9 2P-1) </option>
+                    <option value="starimpact3">Star Mode (SP700 Font 5x9 3P-1)</option>
+                </select>
+                <div class="note">default: auto detection</div>
+            </div>
+            <input type="checkbox" id="optdpi">
+            <label for="optdpi">180 dpi</label>
+            <div class="indent">
+                <div class="note">For ESC/POS, landscape, and device font</div>
+                <div class="note">default: 203 dpi</div>
+            </div>
+        </div>
+    </div>
+    <footer>Receipt.js Designer Version 1.0.0 © 2024 Open Foodservice System Consortium</footer>
+</body>
+</html>
