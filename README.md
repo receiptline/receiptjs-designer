@@ -19,6 +19,49 @@ Carrot    | 3| 3.00
 ![example](resource/example.png)  
 
 
+# Menus
+
+## File
+
+|Control|Description|
+|---|---|
+|![open](resource/open.png)|Open receipt markdown (\*.receipt, \*.text)|
+|![download](resource/download.png)|Download receipt markdown (\*.receipt) or SVG image (\*.svg)|
+|![print](resource/print.png)|Print receipt markdown|
+|![option](resource/option.png)|Set print options|
+
+## Insert
+
+|Control|Description|
+|---|---|
+|![image](resource/image.png)|Insert image<br>`{image:...}`|
+|![barcode](resource/barcode.png)|Insert barcode<br>`{code:...; option:...}`|
+|![2dcode](resource/2dcode.png)|Insert 2D code<br>`{code:...; option:...}`|
+|![format](resource/format.png)|Insert formatting<br>`{width:...; border:...; text:...; align:...}`|
+
+## Edit
+
+|Control|Description|
+|---|---|
+|![column](resource/column.png)|Add Column delimiter<br> <code>&#x7c;</code>|
+|![hr](resource/hr.png)|Add horizontal rule<br>`-`|
+|![cut](resource/cut.png)|Add paper cut<br>`=`|
+|![ul](resource/ul.png)|Underline text<br>`_`|
+|![em](resource/em.png)|Emphasize text<br>`"`|
+|![invert](resource/invert.png)|Invert text<br>`` ` ``|
+|![size](resource/size.png)|Enlarge text<br>`^`|
+
+## View
+
+|Control|Description|
+|---|---|
+|![zoom](resource/zoom.png)|Zoom in/out|
+|![language](resource/language.png)|Select language|
+|![width](resource/width.png)|Change print width (cpl: characters per line)|
+|![landscape](resource/landscape.png)|Enable/Disable landscape orientation|
+|![spacing](resource/spacing.png)|Enable/Disable line spacing|
+
+
 # Web browsers
 
 - Modern Web browsers
