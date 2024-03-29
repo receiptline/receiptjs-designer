@@ -5,6 +5,12 @@ https://receiptline.github.io/receiptjs-designer/
 
 ![designer](ogp/en.png)  
 
+
+# Editor and viewer
+
+Main area for editing a receipt markdown file.  
+This preview is displayed side by side.  
+
 ```
 ^^^RECEIPT
 
@@ -19,7 +25,7 @@ Carrot    | 3| 3.00
 ![example](resource/example.png)  
 
 
-# Menus
+# Menu bar
 
 ## File
 
@@ -70,7 +76,7 @@ The print function is available on Chrome, Edge, and Opera for PCs that support 
 (Windows, Linux, Mac, and ChromeOS)  
 
 
-# Receipt Printers
+# Receipt printers
 
 - Epson TM series
 - Seiko Instruments RP series
