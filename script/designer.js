@@ -184,7 +184,12 @@ function initialize() {
                 ls.removeItem('r');
             }
             // data
-            ls.setItem('d', edit.value);
+            if (edit.value) {
+                ls.setItem('d', edit.value);
+            }
+            else {
+                ls.removeItem('d');
+            }
         }
         catch (e) {
             // nothing to do
@@ -673,7 +678,7 @@ function initialize() {
     }
     // data
     if (params.has('d')) {
-        edit.value = params.get('d');
+        edit.value = params.getAll('d').join('\n');
     }
     // initialize receipt
     linewidth.oninput();
