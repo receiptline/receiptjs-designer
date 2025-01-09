@@ -339,11 +339,17 @@
         <div id="savecancel"></div>
         <div id="savebox">
             <div>Download</div>
-            <input type="radio" id="savetext" name="savetype" value="text" checked>
-            <label for="savetext">Markdown Text</label>
+            <input type="radio" id="savereceipt" name="savetype" value="receipt" checked>
+            <label for="savereceipt">Markdown Text</label>
+            <br>
+            <input type="radio" id="savetxt" name="savetype" value="txt">
+            <label for="savetxt">Plain Text</label>
             <br>
             <input type="radio" id="savesvg" name="savetype" value="svg">
             <label for="savesvg">SVG Image</label>
+            <br>
+            <input type="radio" id="savepng" name="savetype" value="png">
+            <label for="savepng">PNG Image</label>
             <hr>
             <div>
                 <button id="saveok">OK</button>
@@ -559,6 +565,6 @@
             </div>
         </div>
     </div>
-    <footer>Receipt.js Designer Version 1.0.5 © 2024 Open Foodservice System Consortium</footer>
+    <footer>Receipt.js Designer Version 1.1.0 © 2024 Open Foodservice System Consortium</footer>
 </body>
 </html>

@@ -31,8 +31,8 @@ Carrot    | 3| 3.00
 
 |Control|Description|
 |---|---|
-|![open](resource/open.png)|Open receipt markdown (\*.receipt, \*.text)|
-|![download](resource/download.png)|Download receipt markdown (\*.receipt) or SVG image (\*.svg)|
+|![open](resource/open.png)|Open receipt markdown (\*.receipt, \*.txt)|
+|![download](resource/download.png)|Download receipt markdown (\*.receipt), plain text (\*.txt), SVG image (\*.svg), or PNG image (\*.png)|
 |![print](resource/print.png)|Print receipt markdown|
 |![option](resource/option.png)|Set print options|
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.0] - 2025-01-10
+### Added
+- Plain text and PNG image downloads
+
 ## [1.0.5] - 2024-04-13
 ### Fixed
 - Data saving and recovery

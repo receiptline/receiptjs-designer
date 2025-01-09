@@ -24,8 +24,10 @@ function initialize() {
     const save = document.getElementById('save');
     const savedialog = document.getElementById('savedialog');
     const savebox = document.getElementById('savebox');
-    const savetext = document.getElementById('savetext');
+    const savereceipt = document.getElementById('savereceipt');
+    const savetxt = document.getElementById('savetxt');
     const savesvg = document.getElementById('savesvg');
+    const savepng = document.getElementById('savepng');
     const saveok = document.getElementById('saveok');
     const savecancel = document.getElementById('savecancel');
     const prn = document.getElementById('prn');
@@ -244,23 +246,42 @@ function initialize() {
     // register save ok event listener
     saveok.onclick = event => {
         const bom = new Uint8Array([0xef, 0xbb, 0xbf]);
-        // save text file
-        if (savetext.checked) {
+        // save receipt file
+        if (savereceipt.checked) {
             const a = document.createElement('a');
             a.href = window.URL.createObjectURL(new Blob([ bom, edit.value ], { type: 'text/plain' }));
             a.download = 'markdown.receipt';
             a.click();
         }
+        let param = `-l ${lang.value} -c ${cpl.textContent}`;
+        if (!linespace.checked) {
+            param += ' -s';
+        }
+        // save txt file
+        if (savetxt.checked) {
+            Receipt.from(edit.value, param).toText().then(txt => {
+                const a = document.createElement('a');
+                a.href = window.URL.createObjectURL(new Blob([ bom, txt ], { type: 'text/plain' }));
+                a.download = 'markdown.txt';
+                a.click();
+            });
+        }
         // save svg file
         if (savesvg.checked) {
-                let param = `-l ${lang.value} -c ${cpl.textContent}`;
-                if (!linespace.checked) {
-                    param += ' -s';
-                }
-                Receipt.from(edit.value, param).toSVG().then(svg => {
+            Receipt.from(edit.value, param).toSVG().then(svg => {
                 const a = document.createElement('a');
                 a.href = window.URL.createObjectURL(new Blob([ bom, svg ], { type: 'image/svg+xml' }));
                 a.download = 'markdown.svg';
+                a.click();
+            });
+        }
+        // save png file
+        if (savepng.checked) {
+            Receipt.from(edit.value, param).toPNG().then(png => {
+                const bin = Uint8Array.from(atob(png.replace(/^data:image\/png;base64,/, '')), c => c.charCodeAt(0));
+                const a = document.createElement('a');
+                a.href = window.URL.createObjectURL(new Blob([ bin ], { type: 'image/png' }));
+                a.download = 'markdown.png';
                 a.click();
             });
         }
@@ -384,7 +405,7 @@ function initialize() {
                     imgview.getContext('2d').drawImage(im, 0, 0);
                 };
                 im.src = reader.result;
-                image = reader.result.replace(/^data:image\/png;base64,(.*)$/, '$1');
+                image = reader.result.replace(/^data:image\/png;base64,/, '');
             };
             reader.readAsDataURL(file);
         }
