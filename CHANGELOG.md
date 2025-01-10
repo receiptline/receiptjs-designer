@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.1] - 2025-01-11
+### Fixed
+- receipt-serial.js
+
 ## [1.1.0] - 2025-01-10
 ### Added
 - Plain text and PNG image downloads
