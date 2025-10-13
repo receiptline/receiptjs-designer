@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.2] - 2025-10-13
+### Fixed
+- Receipt.js libraries
+
 ## [1.1.1] - 2025-01-11
 ### Fixed
 - receipt-serial.js
