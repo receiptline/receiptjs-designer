@@ -1736,7 +1736,7 @@ const ReceiptPrinter = (() => {
                         }
                         r += '\x1bk' + $(l & 255, l >> 8 & 255) + a.join('') + '\x0a';
                     }
-                    r += (this.spacing ? '\x1bz1' : '\x1b0');
+                    r += this.spacing ? '\x1bz1' : '\x1b0';
                 }
                 return r;
             }
@@ -2733,7 +2733,7 @@ const ReceiptPrinter = (() => {
         },
         // finish printing: ESC GS P 3 xL xH yL yH dxL dxH dyL dyH ESC GS P 7 ESC GS ETX s n1 n2
         close() {
-            const w = this.position;
+            const w = this.position + 24;
             const h = this.cpl * this.charWidth;
             const v = (this.margin + this.cpl + this.marginRight) * this.charWidth;
             const m = (this.upsideDown ? this.margin : this.marginRight) * this.charWidth;
@@ -2874,7 +2874,7 @@ const ReceiptPrinter = (() => {
                 const x = this.left * this.charWidth + this.alignment * (this.width * this.charWidth - w) / 2;
                 const y = this.position + this.charWidth * 40 / 24;
                 const l = w + 7 >> 3;
-                let r = '\x1b0' + '\x1b\x1dP4' + $(y & 255, y >> 8 & 255);
+                let r = '\x1b0\x1b\x1dP4' + $(y & 255, y >> 8 & 255);
                 const s = [];
                 for (let i = 0; i < img.length; i++) {
                     let d = '';
@@ -2925,7 +2925,7 @@ const ReceiptPrinter = (() => {
                 }
                 const x = this.left * this.charWidth + this.alignment * (this.width * this.charWidth - w) / 2;
                 const y = this.position + symbol.height;
-                const h = y + (symbol.hri ? this.charWidth * 2 + 2 : 0);
+                const h = symbol.height + (symbol.hri ? this.charWidth * 2 + 2 : 0);
                 let r = '\x1b\x1dP4' + $(y & 255, y >> 8 & 255) + '\x1b\x1dA' + $(x & 255, x >> 8 & 255);
                 let d = iconv.encode(symbol.data, encoding === 'multilingual' ? 'ascii' : encoding).toString('binary');
                 const b = this.bartype[symbol.type] - Number(/upc|[ej]an/.test(symbol.type) && symbol.data.length < 9);
