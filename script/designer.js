@@ -321,7 +321,7 @@ function initialize() {
             if (optdpi.checked) {
                 param += ' -r 180';
             }
-            if (optptr.checked) {
+            if (optptr.checked && optptrselect.value !== 'auto') {
                 param += ` -p ${optptrselect.value}`;
             }
             const conn = ReceiptSerial.connect();
@@ -688,7 +688,7 @@ function initialize() {
     // printer control language
     if (params.has('p')) {
         const p = params.get('p').toLowerCase();
-        if (/^(escpos|epson|sii|citizen|fit|impactb?|generic|star(line|graphic|impact[23]?)?|emustarline)$/.test(p)) {
+        if (/^(auto|escpos|epson|sii|citizen|fit|impactb?|generic|star(line|graphic|impact[23]?)?|emustarline)$/.test(p)) {
             optptr.checked = true;
             optptrselect.value = p;
         }

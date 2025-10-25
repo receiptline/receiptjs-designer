@@ -16,7 +16,6 @@
     <script type="text/javascript" src="script/receipt.js"></script>
     <script type="text/javascript" src="script/receipt-printer.js"></script>
     <script type="text/javascript" src="script/receipt-serial.js"></script>
-    <script type="text/javascript" src="script/qrcode-generator/qrcode.js"></script>
 </head>
 <body onload="initialize()">
     <header>
@@ -420,7 +419,7 @@
             <label for="qrlevel">Error correction level</label>
             <select id="qrlevel">
                 <option value="L">L</option>
-                <option value="M">M</option>
+                <option value="M" selected>M</option>
                 <option value="Q">Q</option>
                 <option value="H">H</option>
             </select>
@@ -540,6 +539,7 @@
             <label for="optptr">Printer control language</label>
             <div class="indent">
                 <select id="optptrselect" aria-label="printer">
+                    <option value="auto">Auto detection</option>
                     <option value="epson">ESC/POS (Epson)</option>
                     <option value="sii">ESC/POS (Seiko Instruments)</option>
                     <option value="citizen">ESC/POS (Citizen)</option>
@@ -565,6 +565,6 @@
             </div>
         </div>
     </div>
-    <footer>Receipt.js Designer Version 1.1.4 © 2024 Open Foodservice System Consortium</footer>
+    <footer>Receipt.js Designer Version 2.0.0 © 2024-2025 Open Foodservice System Consortium</footer>
 </body>
 </html>
