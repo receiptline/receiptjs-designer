@@ -100,11 +100,3 @@ Please change the signal line setting to "RS-232C cross cable".
 
 If the printer goes offline during print data transmission and the virtual port is closed, the browser may stop responding.  
 In this case, press the printer's paper feed button.  
-
-
-# License
-
-- Receipt.js
-  - Apache License, Version 2.0
-- QR Code Generator for JavaScript with UTF8 Support
-  - MIT License

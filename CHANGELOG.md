@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.1] - 2025-10-27
+### Fixed
+- README
+
 ## [2.0.0] - 2025-10-25
 ### Changed
 - QR code generator
