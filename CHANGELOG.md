@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.1.0] - 2025-10-29
+### Added
+- Quiet zone option to QR code generator
+
 ## [2.0.1] - 2025-10-27
 ### Fixed
 - README
