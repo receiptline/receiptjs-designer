@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1] - 2025-11-01
+### Added
+- Android support
+
+### Fixed
+- README
+
 ## [3.0.0] - 2025-10-31
 ### Changed
 - Printer control sequence
