@@ -90,5 +90,3 @@ Epson TM series (South Asia model) and Star MC series (StarPRNT model) can print
 ## Restrictions
 
 The Web Serial API has no write timeout, so if hardware flow control is enabled, opening the printer cover during printing may cause the browser to stop responding. In this case, close the printer cover or press the paper feed button. Alternatively, change the printer's busy condition setting from "Offline or receive buffer full" to "Receive buffer full".  
-
-_The restriction on Epson TM Virtual Port on Windows that existed in previous versions has been resolved. There is no need to change the signal line settings._  
