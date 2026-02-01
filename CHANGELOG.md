@@ -1,5 +1,9 @@
 # Changelog
 
+## [5.0.0] - 2026-02-01
+### Changed
+- SVG output from SVG 1.1 to SVG 2
+
 ## [4.0.0] - 2025-11-30
 ### Changed
 - Fonts for SVG/PNG output
