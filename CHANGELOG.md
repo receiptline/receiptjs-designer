@@ -1,5 +1,9 @@
 # Changelog
 
+## [5.0.2] - 2026-05-23
+### Changed
+- Textarea colors to improve readability
+
 ## [5.0.1] - 2026-03-01
 ### Fixed
 - PNG output
